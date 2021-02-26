@@ -10,9 +10,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if id:
         try:
-            url = "localhost"  # TODO: Update with appropriate MongoDB connection information
+            url = "mongodb://myneighborlycosmos:2PfHNgLQyH0kOOZrkogZe2e6hdpmi9516vkjTf5IZag1307ejv3svawGMtlzrATTSPXSYINk7psPDOAdQ0Ze4w==@myneighborlycosmos.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@myneighborlycosmos@"  # TODO: Update with appropriate MongoDB connection information
             client = pymongo.MongoClient(url)
-            database = client['azure']
+            database = client['neighborly']
             collection = database['posts']
 
             query = {'_id': ObjectId(id)}
@@ -20,7 +20,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             result = dumps(result)
 
             return func.HttpResponse(result, mimetype="application/json", charset='utf-8')
-        except:
+        except ValueError:
             return func.HttpResponse("Database connection error.", status_code=500)
 
     else:
